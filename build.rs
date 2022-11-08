@@ -13,7 +13,7 @@ fn main() {
 
     if let Some(n) = n {
         if n >= 149 {
-            println!("rustc-cfg=yuyv");
+            println!("cargo:rustc-cfg=yuyv");
         }
     }
 }
