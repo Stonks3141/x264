@@ -2,7 +2,7 @@ use x264::*;
 
 /// Output information about an encoded frame.
 pub struct Picture {
-    raw: x264_picture_t
+    raw: x264_picture_t,
 }
 
 impl Picture {

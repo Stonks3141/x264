@@ -6,10 +6,7 @@ fn main() {
         .probe("x264")
         .expect("Is x264 installed?");
 
-    let n: Option<u64> = x264.version
-        .split('.')
-        .nth(1)
-        .and_then(|n| n.parse().ok());
+    let n: Option<u64> = x264.version.split('.').nth(1).and_then(|n| n.parse().ok());
 
     if let Some(n) = n {
         if n >= 149 {

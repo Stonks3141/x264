@@ -1,7 +1,7 @@
 extern crate x264;
 
-use std::io::Write;
 use std::fs::File;
+use std::io::Write;
 use x264::{Colorspace, Encoder, Image};
 
 fn main() {
@@ -10,11 +10,10 @@ fn main() {
 
     // Initialize things.
 
-    let mut encoder =
-        Encoder::builder()
-            .fps(60, 1)
-            .build(Colorspace::RGB, WIDTH as _, HEIGHT as _)
-            .unwrap();
+    let mut encoder = Encoder::builder()
+        .fps(60, 1)
+        .build(Colorspace::RGB, WIDTH as _, HEIGHT as _)
+        .unwrap();
     let mut file = File::create("fade.h264").unwrap();
     let mut canvas = vec![0; WIDTH * HEIGHT * 3];
 
@@ -52,5 +51,7 @@ fn main() {
 
 fn frame(p: f64, f: &mut [u8]) {
     let lum = (255.0 * p).floor().min(255.0) as u8;
-    for x in f { *x = lum; }
+    for x in f {
+        *x = lum;
+    }
 }

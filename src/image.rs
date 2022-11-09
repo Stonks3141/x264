@@ -1,7 +1,7 @@
+use crate::{Colorspace, Encoding, Modifier};
 use core::marker::PhantomData;
 use core::ptr;
 use x264::*;
-use {Colorspace, Encoding, Modifier};
 
 /// Input image data to be given to the encoder.
 pub struct Image<'a> {
