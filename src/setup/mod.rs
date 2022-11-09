@@ -96,6 +96,7 @@ impl Setup {
         self
     }
 
+    /// Set the maximum number of frames between keyframes.
     pub fn max_keyframe_interval(mut self, interval: i32) -> Self {
         self.raw.i_keyint_max = interval;
         self
