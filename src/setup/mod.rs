@@ -1,6 +1,6 @@
+use crate::{Encoder, Encoding, Error, Result};
 use core::mem::MaybeUninit;
 use x264::*;
-use {Encoder, Encoding, Error, Result};
 
 mod preset;
 mod tune;
@@ -93,6 +93,24 @@ impl Setup {
         unsafe {
             x264_param_apply_profile(&mut self.raw, b"high\0" as *const u8 as *const i8);
         }
+        self
+    }
+
+    pub fn max_keyframe_interval(mut self, interval: i32) -> Self {
+        self.raw.i_keyint_max = interval;
+        self
+    }
+
+    /// Set the minimum number of frames between keyframes.
+    pub fn min_keyframe_interval(mut self, interval: i32) -> Self {
+        self.raw.i_keyint_min = interval;
+        self
+    }
+
+    /// Set the scenecut threshold. Set this to zero to guarantee a keyframe
+    /// every `max_keyframe_interval`.
+    pub fn scenecut_threshold(mut self, threshold: i32) -> Self {
+        self.raw.i_scenecut_threshold = threshold;
         self
     }
 
