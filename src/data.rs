@@ -5,19 +5,21 @@ use x264::*;
 //TODO: Iterator over the units.
 
 /// The encoded data, to be used in chunks or in its entirety.
+#[allow(clippy::len_without_is_empty)]
 pub struct Data<'a> {
     ptr: *mut x264_nal_t,
     len: usize,
-    spooky: PhantomData<&'a [x264_nal_t]>
+    spooky: PhantomData<&'a [x264_nal_t]>,
 }
 
 impl<'a> Data<'a> {
     #[doc(hidden)]
-    pub unsafe fn from_raw_parts(
-        ptr: *mut x264_nal_t,
-        len: usize
-    ) -> Self {
-        Data { ptr, len, spooky: PhantomData }
+    pub unsafe fn from_raw_parts(ptr: *mut x264_nal_t, len: usize) -> Self {
+        Data {
+            ptr,
+            len,
+            spooky: PhantomData,
+        }
     }
 
     /// The length (in NAL units, **not** in bytes) of this data sequence.
@@ -40,25 +42,16 @@ impl<'a> Data<'a> {
 
         assert!(i < self.len);
 
-        let nal = unsafe {
-            *self.ptr.offset(i as isize)
-        };
+        let nal = unsafe { *self.ptr.add(i) };
 
         Unit {
-            priority:
-                match nal.i_ref_idc {
-                    D => Priority::Disposable,
-                    L => Priority::Low,
-                    H => Priority::High,
-                    _ => Priority::Highest,
-                },
-            payload:
-                unsafe {
-                    slice::from_raw_parts(
-                        nal.p_payload,
-                        nal.i_payload as usize
-                    )
-                }
+            priority: match nal.i_ref_idc {
+                D => Priority::Disposable,
+                L => Priority::Low,
+                H => Priority::High,
+                _ => Priority::Highest,
+            },
+            payload: unsafe { slice::from_raw_parts(nal.p_payload, nal.i_payload as usize) },
         }
     }
 
@@ -69,14 +62,12 @@ impl<'a> Data<'a> {
         } else {
             let (a, b) = unsafe {
                 let a = *self.ptr;
-                let b = *self.ptr.offset((self.len - 1) as isize);
+                let b = *self.ptr.add(self.len - 1);
                 (a, b)
             };
 
-            let start  = a.p_payload;
-            let length = b.p_payload as usize
-                       + b.i_payload as usize
-                       - start as usize;
+            let start = a.p_payload;
+            let length = b.p_payload as usize + b.i_payload as usize - start as usize;
 
             unsafe { slice::from_raw_parts(start, length) }
         }
@@ -86,7 +77,7 @@ impl<'a> Data<'a> {
 /// A single NAL unit.
 pub struct Unit<'a> {
     priority: Priority,
-    payload: &'a [u8]
+    payload: &'a [u8],
 }
 
 impl<'a> Unit<'a> {
@@ -107,11 +98,11 @@ impl<'a> AsRef<[u8]> for Unit<'a> {
 /// The importance of a given unit.
 pub enum Priority {
     /// Not important at all.
-    Disposable = nal_priority_e::NAL_PRIORITY_DISPOSABLE as i32,
+    Disposable = 0,
     /// Not very important.
-    Low = nal_priority_e::NAL_PRIORITY_LOW as i32,
+    Low = 1,
     /// Pretty important.
-    High = nal_priority_e::NAL_PRIORITY_HIGH as i32,
+    High = 2,
     /// Extremely important.
-    Highest = nal_priority_e::NAL_PRIORITY_HIGHEST as i32,
+    Highest = 3,
 }

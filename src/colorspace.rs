@@ -33,11 +33,11 @@ pub enum Colorspace {
     /// A Y plane followed by V and U planes.
     YV24 = X264_CSP_YV24,
     /// A packed 24-bit BGR plane.
-    BGR  = X264_CSP_BGR,
+    BGR = X264_CSP_BGR,
     /// A packed 32-bit BGR plane, where the latter byte is padding.
     BGRA = X264_CSP_BGRA,
     /// A packed 24-bit RGB plane.
-    RGB  = X264_CSP_RGB,
+    RGB = X264_CSP_RGB,
 }
 
 #[derive(Debug, Hash, Eq, PartialEq, Copy, Clone)]
@@ -48,19 +48,19 @@ pub struct Encoding {
 
 impl Encoding {
     /// Add an encoding option.
-    pub fn add(mut self, modifier: Modifier) -> Self {
+    pub fn add_modifier(mut self, modifier: Modifier) -> Self {
         self.raw |= modifier as i32;
         self
     }
 
     /// Remove an encoding option.
-    pub fn remove(mut self, modifier: Modifier) -> Self {
+    pub fn remove_modifier(mut self, modifier: Modifier) -> Self {
         self.raw &= !(modifier as i32);
         self
     }
 
     /// Check if an encoding option has been set.
-    pub fn has(self, modifier: Modifier) -> bool {
+    pub fn has_modifier(self, modifier: Modifier) -> bool {
         self.raw & modifier as i32 != 0
     }
 
