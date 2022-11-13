@@ -58,7 +58,10 @@ impl Setup {
         self
     }
 
-    /// Please file an issue if you know what this does, because I have no idea.
+    /// Enable/disable Annex B start codes. Defaults to `true`.
+    ///
+    /// Annex B start codes are not used by containers based on the ISO BMFF
+    /// (Base Media File Format), such as MP4 and MOV.
     pub fn annexb(mut self, annexb: bool) -> Self {
         self.raw.b_annexb = annexb as i32;
         self
