@@ -1,3 +1,5 @@
+use core::ffi::c_char;
+
 #[allow(missing_docs)]
 #[derive(Clone, Copy, Hash, Debug, Eq, PartialEq)]
 /// An encoder preset, which should handle most of the configuration.
@@ -16,7 +18,7 @@ pub enum Preset {
 
 impl Preset {
     #[doc(hidden)]
-    pub fn to_cstr(self) -> *const i8 {
+    pub fn to_cstr(self) -> *const c_char {
         use self::Preset::*;
 
         (match self {
@@ -30,6 +32,6 @@ impl Preset {
             Slower => b"slower\0" as *const u8,
             Veryslow => b"veryslow\0" as *const u8,
             Placebo => b"placebo\0" as *const u8,
-        }) as *const i8
+        }) as *const c_char
     }
 }

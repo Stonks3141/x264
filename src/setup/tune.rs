@@ -1,3 +1,5 @@
+use core::ffi::c_char;
+
 #[allow(missing_docs)]
 #[derive(Clone, Copy, Hash, Debug, Eq, PartialEq)]
 /// Tunes the encoder for a certain kind of video.
@@ -13,7 +15,7 @@ pub enum Tune {
 
 impl Tune {
     #[doc(hidden)]
-    pub fn to_cstr(self, fast_decode: bool, zero_latency: bool) -> *const i8 {
+    pub fn to_cstr(self, fast_decode: bool, zero_latency: bool) -> *const c_char {
         (if !fast_decode && !zero_latency {
             match self {
                 Tune::None => b"\0" as *const u8,
@@ -54,6 +56,6 @@ impl Tune {
                 Tune::Psnr => b"fastdecode,zerolatency,psnr\0" as *const u8,
                 Tune::Ssim => b"fastdecode,zerolatency,ssim\0" as *const u8,
             }
-        }) as *const i8
+        }) as *const c_char
     }
 }

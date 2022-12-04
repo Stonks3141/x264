@@ -1,4 +1,5 @@
 use crate::{Encoder, Encoding, Error, Result};
+use core::ffi::c_char;
 use core::mem::MaybeUninit;
 use x264::*;
 
@@ -78,7 +79,7 @@ impl Setup {
     /// The lowest profile, with guaranteed compatibility with all decoders.
     pub fn baseline(mut self) -> Self {
         unsafe {
-            x264_param_apply_profile(&mut self.raw, b"baseline\0" as *const u8 as *const i8);
+            x264_param_apply_profile(&mut self.raw, b"baseline\0" as *const u8 as *const c_char);
         }
         self
     }
@@ -86,7 +87,7 @@ impl Setup {
     /// A useless middleground between the baseline and high profiles.
     pub fn main(mut self) -> Self {
         unsafe {
-            x264_param_apply_profile(&mut self.raw, b"main\0" as *const u8 as *const i8);
+            x264_param_apply_profile(&mut self.raw, b"main\0" as *const u8 as *const c_char);
         }
         self
     }
@@ -94,7 +95,7 @@ impl Setup {
     /// The highest profile, which almost all encoders support.
     pub fn high(mut self) -> Self {
         unsafe {
-            x264_param_apply_profile(&mut self.raw, b"high\0" as *const u8 as *const i8);
+            x264_param_apply_profile(&mut self.raw, b"high\0" as *const u8 as *const c_char);
         }
         self
     }
