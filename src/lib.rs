@@ -1,4 +1,4 @@
-//! An x264 wrapper, so that you can safely encode H.264 video.
+//! A safe wrapper over the x264 video encoding library.
 
 #![no_std]
 #![warn(missing_docs)]
