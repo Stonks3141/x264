@@ -93,7 +93,7 @@ impl<'a> Image<'a> {
 
     /// Makes a new image with the given planes and colorspace.
     ///
-    /// # Unsafety
+    /// # Safety
     ///
     /// The caller must ensure that the plane fulfils all the invariants that
     /// x264 expects it to fulfil. I don't actually know what all of those are,
