@@ -17,11 +17,7 @@ jobs:
       - name: Install x264
         run: sudo apt-get install libx264-dev
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       - name: Check formatting
         run: cargo fmt --check
       - name: Run lints
@@ -36,15 +32,11 @@ jobs:
       - name: Install x264
         run: sudo apt-get install libx264-dev
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       - name: Run tests
         run: cargo test
 
-  publish:
+  Publish:
     runs-on: ubuntu-latest
     environment: crates.io
     needs:
@@ -57,11 +49,7 @@ jobs:
       - name: Install x264
         run: sudo apt-get install libx264-dev
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
+        uses: dtolnay/rust-toolchain@stable
       - name: Install cargo-workspaces
         run: cargo install cargo-workspaces
       - name: Publish crates
