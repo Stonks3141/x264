@@ -39,7 +39,7 @@ impl Encoder {
 
     /// Feeds a frame to the encoder.
     ///
-    /// # Unsafety
+    /// # Safety
     ///
     /// The caller must ensure that the width, height *and* colorspace
     /// of the image are the same as that of the encoder.
@@ -135,9 +135,10 @@ pub struct Flush {
     encoder: Encoder,
 }
 
-impl Flush {
-    /// Keeps flushing.
-    pub fn next(&mut self) -> Option<Result<(Data, Picture)>> {
+impl Iterator for Flush {
+    type Item = Result<(Data, Picture)>;
+
+    fn next(&mut self) -> Option<Self::Item> {
         let enc = self.encoder.raw;
 
         if unsafe { x264_encoder_delayed_frames(enc) } == 0 {
