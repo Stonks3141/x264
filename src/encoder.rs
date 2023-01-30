@@ -135,10 +135,10 @@ pub struct Flush {
     encoder: Encoder,
 }
 
-impl Iterator for Flush {
-    type Item = Result<(Data, Picture)>;
-
-    fn next(&mut self) -> Option<Self::Item> {
+impl Flush {
+    /// Keeps flushing.
+    #[allow(clippy::should_implement_trait)]
+    pub fn next(&mut self) -> Option<Result<(Data, Picture)>> {
         let enc = self.encoder.raw;
 
         if unsafe { x264_encoder_delayed_frames(enc) } == 0 {
