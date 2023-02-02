@@ -2,6 +2,9 @@
 
 #![no_std]
 #![warn(missing_docs)]
+#![warn(clippy::multiple_unsafe_ops_per_block)]
+#![warn(clippy::undocumented_unsafe_blocks)]
+#![warn(clippy::unused_unsafe)]
 
 extern crate x264_sys;
 
