@@ -2,9 +2,11 @@
 
 #![no_std]
 #![warn(missing_docs)]
-#![warn(clippy::multiple_unsafe_ops_per_block)]
-#![warn(clippy::undocumented_unsafe_blocks)]
-#![warn(clippy::unused_unsafe)]
+#![warn(unused_unsafe)]
+#![forbid(unsafe_op_in_unsafe_fn)]
+#![deny(clippy::undocumented_unsafe_blocks)]
+// TODO: clippy 1.68
+// #![deny(clippy::multiple_unsafe_ops_per_block)]
 
 extern crate x264_sys;
 
